@@ -1,0 +1,36 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python3 train.py
+    deps:
+    - path: data/X_train.csv
+      md5: 98a7d4e41615c591fdeea161d1c57453
+      size: 1708258
+    - path: data/y_train.csv
+      md5: c4c7c3c048bdfcb29e068b8cd3fd3260
+      size: 167500
+    - path: train.py
+      md5: 8d0f1c4b391360254de36a4728f5f9c5
+      size: 418
+  test:
+    cmd: python3 test.py
+    deps:
+    - path: data/X_test.csv
+      md5: 10d2140f09b5772812e59e2bb0626f01
+      size: 841379
+    - path: data/y_test.csv
+      md5: 492fb60c7e733fcf293df77c33bd7a2a
+      size: 82500
+    - path: models/model.joblib
+      md5: 1dca138d77d797bf3f7c51ac57086990
+      size: 5433769
+    - path: test.py
+      md5: 9d8062de1f26ba837b992c6675d7bdbc
+      size: 851
+    outs:
+    - path: confusion.png
+      md5: b88a076b9ce0f251a6f03c290d124c4a
+      size: 17931
+    - path: metrics.json
+      md5: b2ab5381189b628336fbbdc3075754fe
+      size: 100

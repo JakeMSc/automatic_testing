@@ -1,0 +1,19 @@
+stages:
+  train:
+    cmd: python3 train.py
+    deps:
+    - train.py
+    - data/X_train.csv
+    - data/y_train.csv
+  test:
+    cmd: python3 test.py
+    deps:
+    - models/model.joblib
+    - test.py
+    - data/X_test.csv
+    - data/y_test.csv
+    outs:
+    - confusion.png
+    metrics:
+    - metrics.json:
+        cache: false
