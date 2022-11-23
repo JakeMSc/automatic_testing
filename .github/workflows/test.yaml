@@ -1,0 +1,36 @@
+name: auto-testing
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: iterative/setup-cml@v1
+      - uses: iterative/setup-dvc@v1
+      - name: test-model
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          # install dependencies
+          pip install -r requirements.txt
+
+          # pull model and testing data from dvc repo
+          dvc pull
+          
+          ls data
+          ls models
+
+          # test the model
+          dvc repro test
+          
+          # compare testing metrics of new model vs current model
+          git fetch --prune
+          dvc metrics diff master --show-md >> report.md
+
+          # add graph to report
+          echo '![](./confusion.png)' >> report.md
+
+          # post report as a comment in the PR
+          cml comment create report.md
