@@ -16,8 +16,6 @@ jobs:
           # install dependencies
           pip install -r requirements.txt
 
-          echo "Attempting dvc pull"
-
           # pull model and testing data from dvc repo
           dvc pull
           
@@ -29,7 +27,7 @@ jobs:
           
           # compare testing metrics of new model vs current model
           git fetch --prune
-          dvc metrics diff master --show-md >> report.md
+          dvc metrics diff main --show-md >> report.md
 
           # add graph to report
           echo '![](./confusion.png)' >> report.md
